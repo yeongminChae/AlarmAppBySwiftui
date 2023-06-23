@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "upcomingImg_bright.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
