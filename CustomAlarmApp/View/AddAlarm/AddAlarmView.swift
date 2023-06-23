@@ -13,8 +13,8 @@ struct AddAlarm: View {
     
     @StateObject private var repeatDaysSettings = RepeatDaysSettings()
     @StateObject private var alarmTimeSettings = AlarmTimeSettings()
-    @StateObject private var selectedPostDate = SelectedPostDate()
-    
+
+    @State var selectedPostDate:Date
     @State private var isTabbed: [Bool] = Array(repeating: false, count: 3)
     @State private var someToggle = true
     @State private var alarmTime = Date()
@@ -25,10 +25,9 @@ struct AddAlarm: View {
     let title: String
     
     var body: some View {
+        let _ = print("addalarm \(selectedPostDate)")
         ZStack {
             Rectangle().foregroundColor(Color(hex: "F2F2F2")).ignoresSafeArea()
-            
-            let _ = print("addalarm \(selectedPostDate.selectedPostDate)")
             
             VStack(spacing: 20) {
                 AddAlarmHeader(title: title)
@@ -106,9 +105,12 @@ struct AddAlarm: View {
                         newAlarm.mission = mission
                         newAlarm.toggle = true
                         
-                        let _ = print("newAlarm \(newAlarm)")
-                        let _ = print("Alarmvm() \(alarmVM.alarms?.indices)")
-                        //                        alarmVM.addAlarm(alarm: alarm)
+                        if let alarms = alarmVM.alarms {
+                            ForEach(alarms.indices , id:\.self) { i in
+                                let _ = print("Alarmvm() \(i)")
+                            }
+                        }
+                        
                         //                        alarmVM.editAlarm(old: , newAlarmTime: newAlarm.alarmTime, newMission: newAlarm.mission, newRepeatDays: newAlarm.repeatDays, newDuration: newAlarm.duration, newPostedDate: newAlarm.postedDate)
                         self.presentationMode.wrappedValue.dismiss()
                         
@@ -127,7 +129,6 @@ struct AddAlarm: View {
                 
             }
         }
-        .environmentObject(selectedPostDate)
         .environmentObject(repeatDaysSettings)
         .environmentObject(alarmTimeSettings)
     }

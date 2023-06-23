@@ -7,13 +7,8 @@
 
 import SwiftUI
 
-class SelectedPostDate: ObservableObject {
-    @Published var selectedPostDate:Date = Date()
-}
-
 struct EllipsisView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var selectedPostDate: SelectedPostDate
     @ObservedObject var alarmVM: AlarmViewModel
     @State private var isClicked: Bool = false
     
@@ -26,8 +21,6 @@ struct EllipsisView: View {
     
     var body: some View {
         ZStack {
-            let _ = print("elipsisview \(selectedPostDate.selectedPostDate)")
-            
             RoundedRectangle(cornerRadius: 15).frame(width: 75, height: 50).foregroundColor(.teal)
                 .overlay(
                     HStack {
@@ -42,16 +35,12 @@ struct EllipsisView: View {
                         }
                         
                         Button(action: {
-                            selectedPostDate.selectedPostDate = proData.postedDate
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5 ) {
-                                self.isClicked.toggle()
-                            }
-                            let _ = print("proData \(selectedPostDate.selectedPostDate)")
+                            self.isClicked.toggle()
                         }){
                             Text("Edit").foregroundColor(.blue)
                         }
                         .sheet(isPresented: $isClicked) {
-                            AddAlarm(alarmVM: AlarmViewModel(), title: "Edit")
+                            AddAlarm(alarmVM: AlarmViewModel(), selectedPostDate: proData.postedDate, title: "Edit" )
                         }
                     }
                     

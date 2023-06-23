@@ -28,7 +28,7 @@ struct TitleHeader: View {
                 .padding()
             }
             .sheet(isPresented: $isClicked) {
-                AddAlarm(alarmVM: AlarmViewModel(), title: "Add")
+                AddAlarm(alarmVM: AlarmViewModel(), selectedPostDate: Date(), title: "Add")
             }
             Spacer()
         }.padding(.horizontal, 10)

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AlarmView: View {
     @ObservedObject var alarmVM: AlarmViewModel
-    @StateObject private var selectedPostDate = SelectedPostDate()
     
     @State var isToggled: [Bool]
     @State var onDelEditBtn: Bool = false
@@ -62,7 +61,7 @@ struct AlarmView: View {
                                                     EllipsisView(alarm, alarmVM: AlarmViewModel())
                                                 }
                                                 Spacer()
-                                            }.environmentObject(selectedPostDate)
+                                            }
 
                                         }.padding(.horizontal, 35).padding(.top, 5)
 
@@ -104,7 +103,6 @@ struct AlarmView: View {
             }
             
         }
-        
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("RefreshAlarmView"))) { _ in
             self.alarmVM.alarms = self.alarmVM.realm.objects(Alarm.self)
             let alarmCount = self.alarmVM.alarms?.count
