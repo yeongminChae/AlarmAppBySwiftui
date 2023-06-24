@@ -51,6 +51,7 @@ struct AddAlarmBtn: View {
         .environmentObject(repeatDaysSettings)
         .environmentObject(alarmTimeSettings)
     }
+    
     func selectDuration(_ duration: Int) {
         for i in 0..<isTabbed.count {
             isTabbed[i] = ( i == durationIndex(for: duration))

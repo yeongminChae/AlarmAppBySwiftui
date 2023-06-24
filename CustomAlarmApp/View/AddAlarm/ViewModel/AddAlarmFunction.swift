@@ -51,7 +51,6 @@ func formatDate(_ date: Date) -> String {
 }
 
 func AddAlarmRepeatBannerText(day:String, isOnTabbed: Binding<Bool>) -> some View {
-    
     Text(day)
         .id(day)
         .frame(width: 35, height: 35)
@@ -66,3 +65,23 @@ func AddAlarmRepeatBannerText(day:String, isOnTabbed: Binding<Bool>) -> some Vie
             ).animation(.spring(blendDuration: 3))
         )
 }
+
+func createButtonContent(buttonContent: String, repeatDaysSettings: RepeatDaysSettings, duration: Int) -> some View {
+    
+    ZStack(alignment: .center) {
+        createContentBlock(title: "", height: 56, RecColor: repeatDaysSettings.selectedDays.isEmpty && duration != 0 ? "4FCCBC" : "B7CAC8")
+            .animation(.easeInOut(duration: 0.3), value: repeatDaysSettings.selectedDays.isEmpty && duration != 0)
+        Text(buttonContent)
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundColor(Color(hex: "ffffff"))
+            .padding(.top, 10)
+    }
+}
+
+//func RepeatBanner(selectRepeatedDays:[String]) -> some View {
+//    ZStack {
+//        createContentBlock(title: "REPEAT", height: 76, RecColor: "ffffff")
+//        AddAlarmRepeatBanner(selectRepeatedDays: selectRepeatedDays)
+//    }
+//}
+//

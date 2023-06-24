@@ -11,6 +11,7 @@ struct TitleHeader: View {
     @State var title: String
     @State var isHidden: Bool
     @State private var isClicked: Bool = false
+    @State private var newArr: [String] = []
     
     var body: some View {
         VStack {
@@ -28,7 +29,7 @@ struct TitleHeader: View {
                 .padding()
             }
             .sheet(isPresented: $isClicked) {
-                AddAlarm(alarmVM: AlarmViewModel(), selectedPostDate: Date(), title: "Add")
+                AddAlarm(alarmVM: AlarmViewModel(), selectedPostDate: Date(), selectedAlarmTime: "", selectedDuration:0 , selectRepeatedDays: $newArr, title: "Add")
             }
             Spacer()
         }.padding(.horizontal, 10)

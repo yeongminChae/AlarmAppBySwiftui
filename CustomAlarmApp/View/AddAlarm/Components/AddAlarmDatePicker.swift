@@ -12,8 +12,10 @@ class AlarmTimeSettings: ObservableObject {
 }
 
 struct AddAlarmDatePicker: View {
-    @State private var alarmPicker = Date()
     @EnvironmentObject var alarmTimeSettings: AlarmTimeSettings
+    
+    @State private var alarmPicker = Date()
+    @State var selectedAlarmTime: String
     
     var body: some View {
         VStack {
@@ -22,7 +24,11 @@ struct AddAlarmDatePicker: View {
             .datePickerStyle(WheelDatePickerStyle())
             .labelsHidden()
             .onAppear {
-                handleFormattedDate(Date())
+                if selectedAlarmTime == "" {
+                    handleFormattedDate(Date())
+                } else {
+                    setInitialDate()
+                }
             }
             .onChange(of: alarmPicker) { newValue in
                 handleFormattedDate(newValue)
@@ -30,15 +36,22 @@ struct AddAlarmDatePicker: View {
         }
     }
     
+    func setInitialDate() {
+          let formatter = DateFormatter()
+          formatter.dateFormat = "a h:mm"
+          formatter.timeZone = TimeZone.current
+          
+          if let initialDate = formatter.date(from: selectedAlarmTime) {
+              alarmPicker = initialDate
+          }
+      }
+    
     func handleFormattedDate(_ date:Date) {
         let formatter = DateFormatter()
         formatter.dateFormat = "a h:mm"
         formatter.timeZone = TimeZone.current
         
         let formatterdDate = formatter.string(from: date)
-        let defaultDate = formatter.string(from: Date())
-        
         alarmTimeSettings.selectedTime = formatterdDate
-        
     }
 }

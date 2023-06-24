@@ -14,7 +14,11 @@ struct AddAlarm: View {
     @StateObject private var repeatDaysSettings = RepeatDaysSettings()
     @StateObject private var alarmTimeSettings = AlarmTimeSettings()
 
-    @State var selectedPostDate:Date
+    @State var selectedPostDate: Date
+    @State var selectedAlarmTime: String
+    @State var selectedDuration: Int
+    @Binding var selectRepeatedDays: [String]
+    
     @State private var isTabbed: [Bool] = Array(repeating: false, count: 3)
     @State private var someToggle = true
     @State private var alarmTime = Date()
@@ -25,106 +29,50 @@ struct AddAlarm: View {
     let title: String
     
     var body: some View {
-        let _ = print("addalarm \(selectedPostDate)")
         ZStack {
             Rectangle().foregroundColor(Color(hex: "F2F2F2")).ignoresSafeArea()
-            
             VStack(spacing: 20) {
                 AddAlarmHeader(title: title)
                 Spacer()
                 
-                AddAlarmDatePicker().frame(height: 130)
+                AddAlarmDatePicker(selectedAlarmTime: selectedAlarmTime).frame(height: 130)
                 Spacer()
                 
                 ZStack {
                     createContentBlock(title: "REPEAT", height: 76, RecColor: "ffffff")
-                    AddAlarmRepeatBanner()
+                    AddAlarmRepeatBanner(selectRepeatedDays: selectRepeatedDays)
                 }
                 
-                createContentBlock(title: "DURATION", height: 156, RecColor: "ffffff")
-                    .overlay(
-                        VStack(alignment: .center, spacing: 0) {
-                            Spacer()
-                            ForEach([5, 15, 30], id: \.self) { i in
-                                durationClick(duration: i, isOnTabbed: $isTabbed[durationIndex(for: i)])
-                                    .background(
-                                        Rectangle().opacity(0.0000000001)
-                                            .onTapGesture {
-                                                selectDuration(i)
-                                            }
-                                    )
-                                Divider().padding(.leading, 18)
-                            }
-                        }
-                    )
+                AddAlarmDurationSection(duration: $duration, isTabbed: $isTabbed, selectedDuration: selectedDuration)
                 
-                createContentBlock(title: "", height: 56, RecColor: "ffffff")
-                    .overlay (
-                        HStack {
-                            Text("Mission").padding(.leading, 5)
-                            Spacer()
-                            
-                            Toggle("", isOn: $someToggle).toggleStyle(ToggleStyleCustom())
-                        }
-                            .padding(.horizontal, 15).padding(.top, 10)
-                    )
+                AddAlarmMissionBanner(someToggle: $someToggle)
                 
                 if title == "Add" {
                     Button(action: {
-                        let alarm = Alarm()
-                        alarm.alarmTime = alarmTimeSettings.selectedTime
-                        for i in repeatDaysSettings.selectedDays {
-                            alarm.repeatDays.append(String(i))
-                        }
-                        alarm.duration = duration
-                        alarm.mission = mission
-                        alarm.toggle = true
-                        
-                        alarmVM.addAlarm(alarm: alarm)
-                        self.presentationMode.wrappedValue.dismiss()
-                        
-                        NotificationCenter.default.post(name: NSNotification.Name("RefreshAlarmView"), object: nil)
+                        createAlarm()
                     }) {
-                        ZStack(alignment: .center) {
-                            createContentBlock(title: "", height: 56, RecColor: repeatDaysSettings.selectedDays.isEmpty != true && duration != 0 ? "4FCCBC" : "B7CAC8")
-                                .animation(.easeInOut(duration: 0.3), value: repeatDaysSettings.selectedDays.isEmpty != true && duration != 0)
-                            Text("Save")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(Color(hex: "ffffff")).padding(.top, 10)
-                        }
+                        ButtonContent(buttonContent: "Save")
                     }
                     .disabled(repeatDaysSettings.selectedDays.isEmpty != true && duration != 0 ? false : true)
+                    
                 } else {
-                    Button(action: {
-                        let newAlarm = Alarm()
-                        newAlarm.alarmTime = alarmTimeSettings.selectedTime
-                        for i in repeatDaysSettings.selectedDays {
-                            newAlarm.repeatDays.append(String(i))
-                        }
-                        newAlarm.duration = duration
-                        newAlarm.mission = mission
-                        newAlarm.toggle = true
-                        
-                        if let alarms = alarmVM.alarms {
-                            ForEach(alarms.indices , id:\.self) { i in
-                                let _ = print("Alarmvm() \(i)")
+                    if let alarms = alarmVM.alarms?.sorted(by:{$0.postedDate < $1.postedDate}) {
+                        ForEach(alarms.indices, id:\.self) { i in
+                            let alarm = alarms[i]
+                            
+                            if (alarm.postedDate == selectedPostDate) {
+                                
+                                Button(action: {
+                                    alarmVM.editAlarm(old: alarm, newAlarmTime: alarmTimeSettings.selectedTime, newMission: mission, newRepeatDays: repeatDaysSettings.selectedDays, newDuration: duration, newPostedDate: selectedPostDate)
+
+                                    afterButtonActionFunc()
+                                }) {
+                                    ButtonContent(buttonContent: "Update")
+                                }
+                                .disabled(repeatDaysSettings.selectedDays.isEmpty != true && duration != 0 ? false : true)
                             }
                         }
-                        
-                        //                        alarmVM.editAlarm(old: , newAlarmTime: newAlarm.alarmTime, newMission: newAlarm.mission, newRepeatDays: newAlarm.repeatDays, newDuration: newAlarm.duration, newPostedDate: newAlarm.postedDate)
-                        self.presentationMode.wrappedValue.dismiss()
-                        
-                        NotificationCenter.default.post(name: NSNotification.Name("RefreshAlarmView"), object: nil)
-                    }) {
-                        ZStack(alignment: .center) {
-                            createContentBlock(title: "", height: 56, RecColor: repeatDaysSettings.selectedDays.isEmpty != true && duration != 0 ? "4FCCBC" : "B7CAC8")
-                                .animation(.easeInOut(duration: 0.3), value: repeatDaysSettings.selectedDays.isEmpty != true && duration != 0)
-                            Text("Update")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(Color(hex: "ffffff")).padding(.top, 10)
-                        }
                     }
-                    .disabled(repeatDaysSettings.selectedDays.isEmpty != true && duration != 0 ? false : true)
                 }
                 
             }
@@ -133,11 +81,34 @@ struct AddAlarm: View {
         .environmentObject(alarmTimeSettings)
     }
     
-    func selectDuration(_ duration: Int) {
-        for i in 0..<isTabbed.count {
-            isTabbed[i] = ( i == durationIndex(for: duration))
+    func afterButtonActionFunc() {
+        self.presentationMode.wrappedValue.dismiss()
+        NotificationCenter.default.post(name: NSNotification.Name("RefreshAlarmView"), object: nil)
+    }
+    
+    func createAlarm() {
+        let alarm = Alarm()
+        alarm.alarmTime = alarmTimeSettings.selectedTime
+        for i in repeatDaysSettings.selectedDays {
+            alarm.repeatDays.append(String(i))
         }
-        self.duration = duration
+        alarm.duration = duration
+        alarm.mission = mission
+        alarm.toggle = true
+        
+        alarmVM.addAlarm(alarm: alarm)
+        afterButtonActionFunc()
+    }
+    
+    func ButtonContent(buttonContent:String) -> some View {
+        ZStack(alignment: .center) {
+            createContentBlock(title: "", height: 56, RecColor: repeatDaysSettings.selectedDays.isEmpty != true && duration != 0 ? "4FCCBC" : "B7CAC8")
+                .animation(.easeInOut(duration: 0.3), value: repeatDaysSettings.selectedDays.isEmpty != true && duration != 0)
+            Text(buttonContent)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(Color(hex: "ffffff")).padding(.top, 10)
+        }
     }
     
 }
+

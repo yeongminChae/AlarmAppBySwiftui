@@ -20,12 +20,13 @@
 		A38A29E42A3B708000EBA3DC /* ToggleStyleCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A29E32A3B708000EBA3DC /* ToggleStyleCustom.swift */; };
 		A38A29E62A3B781D00EBA3DC /* AddAlarmRepeatBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A29E52A3B781D00EBA3DC /* AddAlarmRepeatBanner.swift */; };
 		A3A874E02A4310A100A1BD58 /* EllipsisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A874DF2A4310A100A1BD58 /* EllipsisView.swift */; };
-		A3A874E22A4323C800A1BD58 /* AddAlarmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A874E12A4323C800A1BD58 /* AddAlarmBtn.swift */; };
 		A3AF9BF02A3C651900F52603 /* AddAlarmDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF9BEF2A3C651900F52603 /* AddAlarmDatePicker.swift */; };
 		A3AF9BF42A3C67F500F52603 /* AddAlarmHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF9BF32A3C67F500F52603 /* AddAlarmHeader.swift */; };
 		A3AF9BF62A3C714100F52603 /* AddAlarmData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF9BF52A3C714100F52603 /* AddAlarmData.swift */; };
 		A3AF9BF82A3C728200F52603 /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF9BF72A3C728200F52603 /* AlarmViewModel.swift */; };
 		A3AF9BFD2A3CC9F600F52603 /* AddAlarmFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AF9BFC2A3CC9F600F52603 /* AddAlarmFunction.swift */; };
+		A3D92FAD2A46D50200D5996A /* AddAlarmDurationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D92FAC2A46D50200D5996A /* AddAlarmDurationSection.swift */; };
+		A3D92FB22A46D8A100D5996A /* AddAlarmMissionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D92FB12A46D8A100D5996A /* AddAlarmMissionBanner.swift */; };
 		A3F525642A3B15800084436B /* CustomAlarmAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F525632A3B15800084436B /* CustomAlarmAppApp.swift */; };
 		A3F525662A3B15800084436B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F525652A3B15800084436B /* ContentView.swift */; };
 		A3F525682A3B15810084436B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3F525672A3B15810084436B /* Assets.xcassets */; };
@@ -50,12 +51,13 @@
 		A38A29E32A3B708000EBA3DC /* ToggleStyleCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleStyleCustom.swift; sourceTree = "<group>"; };
 		A38A29E52A3B781D00EBA3DC /* AddAlarmRepeatBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmRepeatBanner.swift; sourceTree = "<group>"; };
 		A3A874DF2A4310A100A1BD58 /* EllipsisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllipsisView.swift; sourceTree = "<group>"; };
-		A3A874E12A4323C800A1BD58 /* AddAlarmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmBtn.swift; sourceTree = "<group>"; };
 		A3AF9BEF2A3C651900F52603 /* AddAlarmDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmDatePicker.swift; sourceTree = "<group>"; };
 		A3AF9BF32A3C67F500F52603 /* AddAlarmHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmHeader.swift; sourceTree = "<group>"; };
 		A3AF9BF52A3C714100F52603 /* AddAlarmData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmData.swift; sourceTree = "<group>"; };
 		A3AF9BF72A3C728200F52603 /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		A3AF9BFC2A3CC9F600F52603 /* AddAlarmFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmFunction.swift; sourceTree = "<group>"; };
+		A3D92FAC2A46D50200D5996A /* AddAlarmDurationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmDurationSection.swift; sourceTree = "<group>"; };
+		A3D92FB12A46D8A100D5996A /* AddAlarmMissionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmMissionBanner.swift; sourceTree = "<group>"; };
 		A3F525602A3B15800084436B /* CustomAlarmApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomAlarmApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3F525632A3B15800084436B /* CustomAlarmAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlarmAppApp.swift; sourceTree = "<group>"; };
 		A3F525652A3B15800084436B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -195,10 +197,11 @@
 		A3AF9BF12A3C67D800F52603 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				A38A29E52A3B781D00EBA3DC /* AddAlarmRepeatBanner.swift */,
-				A3AF9BEF2A3C651900F52603 /* AddAlarmDatePicker.swift */,
 				A3AF9BF32A3C67F500F52603 /* AddAlarmHeader.swift */,
-				A3A874E12A4323C800A1BD58 /* AddAlarmBtn.swift */,
+				A3AF9BEF2A3C651900F52603 /* AddAlarmDatePicker.swift */,
+				A3D92FAC2A46D50200D5996A /* AddAlarmDurationSection.swift */,
+				A38A29E52A3B781D00EBA3DC /* AddAlarmRepeatBanner.swift */,
+				A3D92FB12A46D8A100D5996A /* AddAlarmMissionBanner.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -373,14 +376,15 @@
 				A32C27122A3EF3C0006E8A8D /* DataDisplayFunc.swift in Sources */,
 				A38A29D42A3B16F700EBA3DC /* TitleHeader.swift in Sources */,
 				A38A29DC2A3B1E8800EBA3DC /* UpcomingView.swift in Sources */,
-				A3A874E22A4323C800A1BD58 /* AddAlarmBtn.swift in Sources */,
 				A38A29D72A3B182B00EBA3DC /* FontManager.swift in Sources */,
 				A38A29E62A3B781D00EBA3DC /* AddAlarmRepeatBanner.swift in Sources */,
 				A38A29DA2A3B1C2000EBA3DC /* Color.swift in Sources */,
 				A38A29DE2A3B1E8F00EBA3DC /* AlarmView.swift in Sources */,
 				A3AF9BF82A3C728200F52603 /* AlarmViewModel.swift in Sources */,
+				A3D92FB22A46D8A100D5996A /* AddAlarmMissionBanner.swift in Sources */,
 				A3AF9BF62A3C714100F52603 /* AddAlarmData.swift in Sources */,
 				A3F525642A3B15800084436B /* CustomAlarmAppApp.swift in Sources */,
+				A3D92FAD2A46D50200D5996A /* AddAlarmDurationSection.swift in Sources */,
 				A38A29E42A3B708000EBA3DC /* ToggleStyleCustom.swift in Sources */,
 				A32C271F2A3F1644006E8A8D /* UserDefaultManager.swift in Sources */,
 				A3AF9BFD2A3CC9F600F52603 /* AddAlarmFunction.swift in Sources */,

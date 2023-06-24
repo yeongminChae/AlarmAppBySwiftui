@@ -12,8 +12,17 @@ class Alarm: Object {
     @Persisted var alarmTime: String
     @Persisted var mission: Bool
     @Persisted var toggle: Bool
-//    @Persisted var toggle = List<Bool>()
     @Persisted var repeatDays = List<String>()
     @Persisted var duration: Int
     @Persisted var postedDate: Date = Date.now
+    
+    var repeatDaysArray: [String] {
+        get {
+            repeatDays.map { $0 }
+        }
+        set {
+            repeatDays.removeAll()
+            repeatDays.append(objectsIn: newValue)
+        }
+    }
 }

@@ -49,16 +49,16 @@ class AlarmViewModel: ObservableObject {
            alarms = realm.objects(Alarm.self)
        }
     
-    func editAlarm(old: Alarm, newAlarmTime:String, newMission: Bool, newRepeatDays: List<String>, newDuration : Int, newPostedDate: Date) {
+//    func editAlarm(old: Alarm, newAlarmTime:String, newMission: Bool, newRepeatDays: List<String>, newDuration : Int, newPostedDate: Date) {
+    func editAlarm(old: Alarm, newAlarmTime:String, newMission: Bool, newRepeatDays: [String], newDuration : Int, newPostedDate: Date) {
         do {
             let realm = try Realm()
             
             try realm.write {
-//                old.alarmTime = newAlarmTime
-
                 old.alarmTime = newAlarmTime
                 old.mission = newMission
-                old.repeatDays = newRepeatDays
+//                old.repeatDays = newRepeatDays
+                old.repeatDaysArray = newRepeatDays
                 old.duration = newDuration
                 old.postedDate = newPostedDate
             }

@@ -12,11 +12,14 @@ class RepeatDaysSettings: ObservableObject {
 }
 
 struct AddAlarmRepeatBanner: View {
-    @State private var isTabbed: [Bool] = Array(repeating: false, count: 7)
     @EnvironmentObject var repeatDaysSettings: RepeatDaysSettings
-
-    let daysOfWeek:[String] = ["S","M","T","W","T","F","S"]
-    let daysOfWeekFull:[String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+    
+    @State private var isTabbed: [Bool] = Array(repeating: false, count: 7)
+    @State var selectRepeatedDays: [String]
+    @State var commonElements: [String] = []
+    
+    let daysOfWeek: [String] = ["S","M","T","W","T","F","S"]
+    let daysOfWeekFull: [String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
     
     var body: some View {
         VStack(alignment: .center) {
@@ -24,12 +27,13 @@ struct AddAlarmRepeatBanner: View {
             
             HStack {
                 ForEach(0..<daysOfWeek.count, id: \.self) { i in
-                    AddAlarmRepeatBannerText(day: daysOfWeek[i] , isOnTabbed: $isTabbed[i])
+                    let day = daysOfWeekFull[i]
+                    
+                    AddAlarmRepeatBannerText(day: daysOfWeek[i], isOnTabbed: $isTabbed[i])
                         .onTapGesture {
                             isTabbed[i].toggle()
                         }
-                        .onChange(of: isTabbed[i]) {newValue in
-                            print()
+                        .onChange(of: isTabbed[i]) { newValue in
                             if isTabbed[i] {
                                 repeatDaysSettings.selectedDays.append(daysOfWeekFull[i])
                             } else {
@@ -37,10 +41,23 @@ struct AddAlarmRepeatBanner: View {
                                     day == daysOfWeekFull[i]
                                 }
                             }
-
+                        }
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1 ) {
+                                isTabbed[i] = commonElements.contains(day)
+                            }
                         }
                 }
             }
-        }.frame(maxHeight: 76)
+        }
+        .frame(maxHeight: 76)
+        .onAppear {
+            commonElements = daysOfWeekFull.filter { selectRepeatedDays.contains($0) }
+        }
+        .onChange(of: selectRepeatedDays) { newValue in
+            commonElements = daysOfWeekFull.filter { newValue.contains($0) }
+        }
+        
     }
 }
+
