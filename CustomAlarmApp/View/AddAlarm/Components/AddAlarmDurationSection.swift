@@ -30,7 +30,10 @@ struct AddAlarmDurationSection: View {
                                         }
                                     }
                             )
-                        Divider().padding(.leading, 18)
+                        
+                        if i != 30 {
+                            Divider().padding(.leading, 18)
+                        }
                     }
                 }
             )

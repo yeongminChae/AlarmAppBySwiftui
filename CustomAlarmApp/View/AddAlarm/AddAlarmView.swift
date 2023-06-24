@@ -74,7 +74,6 @@ struct AddAlarm: View {
                         }
                     }
                 }
-                
             }
         }
         .environmentObject(repeatDaysSettings)

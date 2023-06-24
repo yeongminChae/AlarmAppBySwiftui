@@ -27,8 +27,6 @@ struct AddAlarmRepeatBanner: View {
             
             HStack {
                 ForEach(0..<daysOfWeek.count, id: \.self) { i in
-                    let day = daysOfWeekFull[i]
-                    
                     AddAlarmRepeatBannerText(day: daysOfWeek[i], isOnTabbed: $isTabbed[i])
                         .onTapGesture {
                             isTabbed[i].toggle()
@@ -43,6 +41,8 @@ struct AddAlarmRepeatBanner: View {
                             }
                         }
                         .onAppear {
+                            let day = daysOfWeekFull[i]
+                            
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1 ) {
                                 isTabbed[i] = commonElements.contains(day)
                             }
