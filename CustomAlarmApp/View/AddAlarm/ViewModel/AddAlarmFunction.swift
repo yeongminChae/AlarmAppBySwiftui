@@ -77,11 +77,3 @@ func createButtonContent(buttonContent: String, repeatDaysSettings: RepeatDaysSe
             .padding(.top, 10)
     }
 }
-
-//func RepeatBanner(selectRepeatedDays:[String]) -> some View {
-//    ZStack {
-//        createContentBlock(title: "REPEAT", height: 76, RecColor: "ffffff")
-//        AddAlarmRepeatBanner(selectRepeatedDays: selectRepeatedDays)
-//    }
-//}
-//

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A315B7D32A501FA2004BFCB3 /* UpcomingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A315B7D22A501FA2004BFCB3 /* UpcomingViewModel.swift */; };
 		A32C27122A3EF3C0006E8A8D /* DataDisplayFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C27112A3EF3C0006E8A8D /* DataDisplayFunc.swift */; };
 		A32C271A2A3F0185006E8A8D /* UpcomingTopPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C27192A3F0185006E8A8D /* UpcomingTopPart.swift */; };
 		A32C271D2A3F031A006E8A8D /* UpcomingDownPart.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C271C2A3F031A006E8A8D /* UpcomingDownPart.swift */; };
-		A32C271F2A3F1644006E8A8D /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32C271E2A3F1644006E8A8D /* UserDefaultManager.swift */; };
 		A38A29D42A3B16F700EBA3DC /* TitleHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A29D32A3B16F700EBA3DC /* TitleHeader.swift */; };
 		A38A29D72A3B182B00EBA3DC /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A29D62A3B182B00EBA3DC /* FontManager.swift */; };
 		A38A29DA2A3B1C2000EBA3DC /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A29D92A3B1C2000EBA3DC /* Color.swift */; };
@@ -38,10 +38,10 @@
 		2069F0536E85CD8DEB3A37EE /* Pods_CustomAlarmApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomAlarmApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E4C04D0A7BFC24334C11981 /* Pods-CustomAlarmApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomAlarmApp.debug.xcconfig"; path = "Target Support Files/Pods-CustomAlarmApp/Pods-CustomAlarmApp.debug.xcconfig"; sourceTree = "<group>"; };
 		821F92B467AD36368E76048D /* Pods-CustomAlarmApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomAlarmApp.release.xcconfig"; path = "Target Support Files/Pods-CustomAlarmApp/Pods-CustomAlarmApp.release.xcconfig"; sourceTree = "<group>"; };
+		A315B7D22A501FA2004BFCB3 /* UpcomingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewModel.swift; sourceTree = "<group>"; };
 		A32C27112A3EF3C0006E8A8D /* DataDisplayFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDisplayFunc.swift; sourceTree = "<group>"; };
 		A32C27192A3F0185006E8A8D /* UpcomingTopPart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpcomingTopPart.swift; path = CustomAlarmApp/View/Upcoming/Components/UpcomingTopPart.swift; sourceTree = SOURCE_ROOT; };
 		A32C271C2A3F031A006E8A8D /* UpcomingDownPart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingDownPart.swift; sourceTree = "<group>"; };
-		A32C271E2A3F1644006E8A8D /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		A38A29D32A3B16F700EBA3DC /* TitleHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleHeader.swift; sourceTree = "<group>"; };
 		A38A29D62A3B182B00EBA3DC /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		A38A29D92A3B1C2000EBA3DC /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -94,6 +94,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A315B7D12A501F92004BFCB3 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A315B7D22A501FA2004BFCB3 /* UpcomingViewModel.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
 		A32C27132A3EF606006E8A8D /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +114,7 @@
 		A32C27172A3F008F006E8A8D /* Upcoming */ = {
 			isa = PBXGroup;
 			children = (
+				A315B7D12A501F92004BFCB3 /* viewModel */,
 				A32C271B2A3F0188006E8A8D /* Components */,
 				A38A29DB2A3B1E8800EBA3DC /* UpcomingView.swift */,
 			);
@@ -172,7 +181,6 @@
 			children = (
 				A38A29D62A3B182B00EBA3DC /* FontManager.swift */,
 				A38A29D92A3B1C2000EBA3DC /* Color.swift */,
-				A32C271E2A3F1644006E8A8D /* UserDefaultManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -371,6 +379,7 @@
 			files = (
 				A32C271D2A3F031A006E8A8D /* UpcomingDownPart.swift in Sources */,
 				A3A874E02A4310A100A1BD58 /* EllipsisView.swift in Sources */,
+				A315B7D32A501FA2004BFCB3 /* UpcomingViewModel.swift in Sources */,
 				A3AF9BF02A3C651900F52603 /* AddAlarmDatePicker.swift in Sources */,
 				A3F525662A3B15800084436B /* ContentView.swift in Sources */,
 				A32C27122A3EF3C0006E8A8D /* DataDisplayFunc.swift in Sources */,
@@ -386,7 +395,6 @@
 				A3F525642A3B15800084436B /* CustomAlarmAppApp.swift in Sources */,
 				A3D92FAD2A46D50200D5996A /* AddAlarmDurationSection.swift in Sources */,
 				A38A29E42A3B708000EBA3DC /* ToggleStyleCustom.swift in Sources */,
-				A32C271F2A3F1644006E8A8D /* UserDefaultManager.swift in Sources */,
 				A3AF9BFD2A3CC9F600F52603 /* AddAlarmFunction.swift in Sources */,
 				A3AF9BF42A3C67F500F52603 /* AddAlarmHeader.swift in Sources */,
 				A32C271A2A3F0185006E8A8D /* UpcomingTopPart.swift in Sources */,

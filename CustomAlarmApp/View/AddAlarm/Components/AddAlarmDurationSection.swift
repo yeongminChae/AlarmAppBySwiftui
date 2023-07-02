@@ -13,7 +13,7 @@ struct AddAlarmDurationSection: View {
     @State var selectedDuration: Int
     
     var body: some View {
-        createContentBlock(title: "DURATION", height: 156, RecColor: "ffffff")
+        createContentBlock(title: "SNOOZE", height: 156, RecColor: "ffffff")
             .overlay(
                 VStack(alignment: .center, spacing: 0) {
                     Spacer()

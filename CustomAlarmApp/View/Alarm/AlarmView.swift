@@ -11,7 +11,7 @@ struct AlarmView: View {
     @ObservedObject var alarmVM: AlarmViewModel
     
     @State var isToggled: [Bool]
-    @State var onDelEditBtn: Bool = false
+    @State var newAlarmArr:[String] = []
     
     init(alarmVM: AlarmViewModel) {
         self.alarmVM = alarmVM
@@ -20,6 +20,8 @@ struct AlarmView: View {
     }
     
     var body: some View {
+        let dateFormatter = DateFormatter()
+        
         ZStack {
             Rectangle().foregroundColor(Color(hex: "F2F2F2")).ignoresSafeArea()
             TitleHeader(title: "Alarm", isHidden: false)
@@ -27,15 +29,19 @@ struct AlarmView: View {
             VStack(alignment: .center, spacing: 15) {
                 
                 RoundedRectangle(cornerRadius: 28).frame(width: 358, height: 68).foregroundColor(Color(.white)).opacity(0)
-//                if let alarms = alarmVM.alarms?.sorted(by:{$0.alarmTime.components(separatedBy: " ")[0] == "오전" ? $0.alarmTime < $1.alarmTime : $0.alarmTime > $1.alarmTime}) {
-                if let alarms = alarmVM.alarms?.sorted(by:{$0.alarmTime < $1.alarmTime}) {
+                if let alarms = alarmVM.alarms?.sorted(by: {
+                    dateFormatter.dateFormat = "a h:mm"
+                    let time1 = dateFormatter.date(from: $0.alarmTime)
+                    let time2 = dateFormatter.date(from: $1.alarmTime)
+                    
+                    return time1?.compare(time2 ?? Date()) == .orderedAscending
+                }) {
                     
                     ScrollView() {
                         VStack(alignment: .center, spacing: 10) {
                             
                             ForEach(alarms.indices, id: \.self) { i in
                                 let alarm = alarms[i]
-                                
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 28).frame(width: 358, height: 112).foregroundColor(!isToggled[i] ? Color(hex: "D8E9E7") : Color(.white))
                                     VStack {
@@ -53,18 +59,12 @@ struct AlarmView: View {
                                             Spacer()
                                             
                                             ZStack {
-                                                Image(systemName: "ellipsis")
-                                                    .onTapGesture {
-                                                        onDelEditBtn.toggle()
-                                                    }
-                                                if onDelEditBtn {
-                                                    EllipsisView(alarm, alarmVM: AlarmViewModel())
-                                                }
+                                                EllipsisView(alarm, alarmVM: AlarmViewModel())
                                                 Spacer()
                                             }
-
+                                            
                                         }.padding(.horizontal, 35).padding(.top, 5)
-
+                                        
                                         HStack(alignment: .lastTextBaseline) {
                                             AlarmViewTextFormat(contents: alarm.alarmTime.components(separatedBy: " ")[1], fontSize: 42, fontWeight: .medium)
                                                 .foregroundColor(!isToggled[i] ? Color(hex: "99ABA9") : .black)
@@ -72,16 +72,13 @@ struct AlarmView: View {
                                                 .foregroundColor(!isToggled[i] ? Color(hex: "B7CAC8") : Color(hex: "4FCCBC"))
                                             Spacer()
                                         }.padding(.horizontal, 35)
-
+                                        
                                     }
-
+                                    
                                     Toggle("", isOn: $isToggled[i]).toggleStyle(ToggleStyleCustom()).padding(.horizontal, 35).padding(.top, 50)
                                         .onChange(of: isToggled[i]) { newValue in
                                             alarmVM.editToggle(old: alarm, newToggleValue: newValue)
                                         }
-                                }
-                                .onTapGesture {
-                                    onDelEditBtn.toggle()
                                 }
                             }
                         }
@@ -98,10 +95,8 @@ struct AlarmView: View {
                     }.frame(maxHeight: .infinity)
 
                 }
-                
                 Divider()
             }
-            
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("RefreshAlarmView"))) { _ in
             self.alarmVM.alarms = self.alarmVM.realm.objects(Alarm.self)

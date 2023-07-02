@@ -9,6 +9,7 @@ import SwiftUI
 
 class AlarmTimeSettings: ObservableObject {
     @Published var selectedTime: String = ""
+    @Published var rawAlarmTime: String = ""
 }
 
 struct AddAlarmDatePicker: View {
@@ -26,12 +27,14 @@ struct AddAlarmDatePicker: View {
             .onAppear {
                 if selectedAlarmTime == "" {
                     handleFormattedDate(Date())
+                    handleFormattedRawDate(Date())
                 } else {
                     setInitialDate()
                 }
             }
             .onChange(of: alarmPicker) { newValue in
                 handleFormattedDate(newValue)
+                handleFormattedRawDate(newValue)
             }
         }
     }
@@ -53,5 +56,14 @@ struct AddAlarmDatePicker: View {
         
         let formatterdDate = formatter.string(from: date)
         alarmTimeSettings.selectedTime = formatterdDate
+    }
+    
+    func handleFormattedRawDate(_ date:Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:00"
+        formatter.timeZone = TimeZone.current
+        
+        let formatterdRawDate = formatter.string(from: date)
+        alarmTimeSettings.rawAlarmTime = formatterdRawDate
     }
 }

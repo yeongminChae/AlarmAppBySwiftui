@@ -63,7 +63,7 @@ struct AddAlarm: View {
                             if (alarm.postedDate == selectedPostDate) {
                                 
                                 Button(action: {
-                                    alarmVM.editAlarm(old: alarm, newAlarmTime: alarmTimeSettings.selectedTime, newMission: mission, newRepeatDays: repeatDaysSettings.selectedDays, newDuration: duration, newPostedDate: selectedPostDate)
+                                    alarmVM.editAlarm(old: alarm, newAlarmTime: alarmTimeSettings.selectedTime, newRawAlarmTime: alarmTimeSettings.rawAlarmTime, newMission: mission, newRepeatDays: repeatDaysSettings.selectedDays, newDuration: duration, newPostedDate: selectedPostDate)
 
                                     afterButtonActionFunc()
                                 }) {
@@ -88,6 +88,7 @@ struct AddAlarm: View {
     func createAlarm() {
         let alarm = Alarm()
         alarm.alarmTime = alarmTimeSettings.selectedTime
+        alarm.rawAlarmTime = alarmTimeSettings.rawAlarmTime
         for i in repeatDaysSettings.selectedDays {
             alarm.repeatDays.append(String(i))
         }

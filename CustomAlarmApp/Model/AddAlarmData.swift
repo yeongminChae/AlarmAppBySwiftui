@@ -10,6 +10,7 @@ import RealmSwift
 
 class Alarm: Object {
     @Persisted var alarmTime: String
+    @Persisted var rawAlarmTime: String
     @Persisted var mission: Bool
     @Persisted var toggle: Bool
     @Persisted var repeatDays = List<String>()
