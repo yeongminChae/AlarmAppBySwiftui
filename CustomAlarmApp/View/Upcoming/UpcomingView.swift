@@ -14,11 +14,6 @@ struct UpcomingView: View {
     @State private var remainingTime: TimeInterval = 0
     @State private var timer: Timer? = nil
     
-    let now = Date()
-    var weekday: String {
-        return now.formatted(as: "EEEE")
-    }
-    
     init(alarmVM: AlarmViewModel) {
         self.alarmVM = alarmVM
         let alarmCount = alarmVM.alarms?.count
@@ -97,23 +92,32 @@ struct UpcomingView: View {
             let currentTime2 = formatter.date(from: currentTime)
             let upcoming = formatter.date(from: upcomingAlarmSettings.upcomingAlarm)
             let timeCalculater: TimeInterval
-            
-            if upcomingAlarmSettings.upcomingAmPm == "AM" {
-                timeCalculater =  (currentTime2 ?? Date()) - (upcoming ?? Date())
-            } else if upcomingAlarmSettings.upcomingAmPm == "" {
+
+            if upcomingAlarmSettings.upcomingAmPm == "" {
                 timeCalculater = 0
             } else {
-                timeCalculater = (upcoming ?? Date()) - (currentTime2 ?? Date())
+                timeCalculater =  abs((currentTime2 ?? Date()) - (upcoming ?? Date()))
             }
             remainingTime = timeCalculater
         }
     }
     
     func formattedRemainingTime() -> String {
-        let hours = abs(Int(remainingTime / 3600))
-        let minutes = abs(Int(remainingTime / 60) % 60)
-        let seconds = abs(Int(remainingTime) % 60)
+        let hours = Int(remainingTime / 3600)
+        let minutes = Int(remainingTime / 60) % 60
+        let seconds = Int(remainingTime) % 60
         
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        formatter.timeZone = TimeZone.current
+        
+        let currentTime = formatter.string(from: date)
+        
+        if upcomingAlarmSettings.upcomingAlarm < currentTime  {
+            return String(format: "%02d:%02d:%02d", 24 - hours, 59 - minutes, 59 - seconds)
+        } else {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        }
     }
 }

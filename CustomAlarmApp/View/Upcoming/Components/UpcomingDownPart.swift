@@ -18,23 +18,36 @@ struct UpcomingDownPart: View {
     
     @State var isToggled:Bool = true
     
+    let now = Date()
+    var weekday: String {
+        return now.formatted(as: "EEEE")
+    }
+    
     init(alarmVM: AlarmViewModel) {
         self.alarmVM = alarmVM
     }
     
     var body: some View {
         let dateFormatter = DateFormatter()
-        
-        ZStack {
-            if let alarms = alarmVM.alarms?.sorted(by: {
-                dateFormatter.dateFormat = "a h:mm"
-                dateFormatter.timeZone = TimeZone.current
-                let time1 = dateFormatter.date(from: $0.alarmTime)
-                let time2 = dateFormatter.date(from: $1.alarmTime)
 
-                return time1?.compare(time2 ?? Date()) == .orderedAscending
-            }), let firstAlarm = alarms.first {
+        ZStack {
+            if let alarms = alarmVM.alarms, !alarms.isEmpty {
+                let now = Date()
+                let timeFormatter = DateFormatter()
+                let closestAlarm = alarms
+                    .sorted(by: {
+                        timeFormatter.dateFormat = "a h:mm"
+                        timeFormatter.timeZone = TimeZone.current
+                        let time1 = timeFormatter.date(from: $0.alarmTime)
+                        let time2 = timeFormatter.date(from: $1.alarmTime)
+                        return time1?.compare(time2 ?? Date()) == .orderedAscending
+                    })
+                    .first(where: { alarm in
+                        alarm.repeatDaysArray.contains(where: { $0 == weekday.prefix(3) }) &&
+                        alarm.alarmTime > timeFormatter.string(from: Date())
+                    })
                 
+                if let firstAlarm = closestAlarm ?? alarms.first  {
                 HStack(alignment: .lastTextBaseline) {
                     
                     VStack(alignment: .leading) {
@@ -52,18 +65,23 @@ struct UpcomingDownPart: View {
                     if let alarms = alarmVM.alarms, !alarms.isEmpty {
                         upcomingAlarmSettings.upcomingAlarm = firstAlarm.rawAlarmTime
                         upcomingAlarmSettings.upcomingAmPm = firstAlarm.alarmTime.components(separatedBy: " ")[0]
-                        NotificationCenter.default.post(name: NSNotification.Name("RefreshAlarmView"), object: nil)
                     } else {
                         upcomingAlarmSettings.upcomingAlarm = ""
                         upcomingAlarmSettings.upcomingAmPm = ""
-                        NotificationCenter.default.post(name: NSNotification.Name("RefreshAlarmView"), object: nil)
                     }
+                    NotificationCenter.default.post(name: NSNotification.Name("RefreshAlarmView"), object: nil)
                 }
                 .padding(.horizontal, 15).padding(.bottom, 10)
+            }
+                
             }
             else {
                 ZStack {
                     Text("")                    
+                }
+                .onAppear() {
+                    upcomingAlarmSettings.upcomingAlarm = ""
+                    upcomingAlarmSettings.upcomingAmPm = ""
                 }
             }
             

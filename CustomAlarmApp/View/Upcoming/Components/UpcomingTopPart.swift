@@ -11,6 +11,12 @@ struct UpcomingTopPart: View {
     @ObservedObject var alarmVM: AlarmViewModel
     @State var isToggled:[Bool]
     
+    let dateFormatter = DateFormatter()
+    let now = Date()
+    var weekday: String {
+        return now.formatted(as: "EEEE")
+    }
+    
     init(alarmVM: AlarmViewModel) {
         self.alarmVM = alarmVM
         let alarmCount = alarmVM.alarms?.count
@@ -19,7 +25,16 @@ struct UpcomingTopPart: View {
     
     var body: some View {
         ZStack {
-            if let alarms = alarmVM.alarms, !alarms.isEmpty, let firstAlarm = alarms.first {
+            if let alarms = alarmVM.alarms?.sorted(by: {
+                dateFormatter.dateFormat = "a h:mm"
+                dateFormatter.timeZone = TimeZone.current
+                let time1 = dateFormatter.date(from: $0.alarmTime)
+                let time2 = dateFormatter.date(from: $1.alarmTime)
+
+                return time1?.compare(time2 ?? Date()) == .orderedAscending
+            }), let firstAlarm = alarms.filter({ alarm in
+                alarm.repeatDaysArray.contains(where: { $0 == weekday.prefix(3) })
+            }).first {
                 
                 Image("UpcomingBoxTop").padding(.top, -0.3).overlay(
                     
